@@ -31,30 +31,30 @@ public class Myideasoft {
         searchBox.sendKeys("ürün");
         WebElement searchButton = driver.findElement(By.xpath("//button[1]"));
         searchButton.click();
-        WebElement urun = driver.findElement(By.xpath("//a[@title='Ürün']"));
-        urun.click();
-        WebElement urunsayisi = driver.findElement(By.xpath("//select[@id='qty-input']"));
+        WebElement product = driver.findElement(By.xpath("//a[@title='Ürün']"));
+        product.click();
+        WebElement productQuantityInput = driver.findElement(By.xpath("//select[@id='qty-input']"));
         String requestedItemQuantity =  "5";
-        urunsayisi.sendKeys(requestedItemQuantity);
-        WebElement sepeteekle = driver.findElement(By.xpath("//a[@class='add-to-cart-button']"));
-        sepeteekle.click();
-        WebElement sepetOnayMesaji = driver.findElement(By.xpath("//div[@class='shopping-information-cart']"));
-        if (sepetOnayMesaji.isDisplayed()) {
+        productQuantityInput.sendKeys(requestedItemQuantity);
+        WebElement addToCart = driver.findElement(By.xpath("//a[@class='add-to-cart-button']"));
+        addToCart.click();
+        WebElement cartConfirmationMessage = driver.findElement(By.xpath("//div[@class='shopping-information-cart']"));
+        if (cartConfirmationMessage.isDisplayed()) {
             System.out.println("Product added to cart successfully.");
         } else {
             System.out.println("An error occurred when product adding to cart");
         }
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4)); //https://stackoverflow.com/questions/38327049/check-if-element-is-clickable-in-selenium-java
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".shopping-information-cart")));
-        WebElement sepet = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title='Sepet']")));
-        sepet.click();
-        WebElement sepetUrunSayisiElt = driver.findElement(By.xpath("//div[@class='cart-item']//input[@data-stocktype='Piece']"));
-        String urunSayisiText = sepetUrunSayisiElt.getAttribute("value");
-        int urunSayisi = Integer.parseInt(urunSayisiText.trim());
+        WebElement cart = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title='Sepet']")));
+        cart.click();
+        WebElement cartProductQuantityElement = driver.findElement(By.xpath("//div[@class='cart-item']//input[@data-stocktype='Piece']"));
+        String productQuantityText = cartProductQuantityElement.getAttribute("value");
+        int productQuantity = Integer.parseInt(productQuantityText.trim());
         int requestedItemQuantityInt = Integer.parseInt(requestedItemQuantity.trim());
-        if (urunSayisi == requestedItemQuantityInt) {
+        if (productQuantity == requestedItemQuantityInt) {
             System.out.println("Product count is right");
-            System.out.println(urunSayisi);
+            System.out.println(productQuantity);
         } else {
             System.out.println("Product count is wrong");
         }
